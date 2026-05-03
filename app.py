@@ -63,51 +63,41 @@ if uploaded_file:
         st.info("Loaded existing vector DB")
 
     # 🔍 Q&A
-    if question:
+    # 🔍 Q&A
+if question:
 
-        retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-        docs = retriever.invoke(question)
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    docs = retriever.invoke(question)
 
-        context = "\n\n".join([doc.page_content for doc in docs])
+    context = "\n\n".join([doc.page_content for doc in docs])
 
-        llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-4o-mini")
 
-        prompt = f"""
-You are a helpful and engaging tutor.
+    # 🔥 NEW ADAPTIVE PROMPT
+    prompt = f"""
+You are a smart AI assistant helping a student.
 
-Your job is to explain answers in a way that is:
-- easy to understand
-- well-structured
-- interesting to read
-- suitable for students
+Use ONLY the provided context to answer the question.
 
-Use ONLY the provided context to answer.
-
-Format your answer like this:
-1. Start with a short, clear summary
-2. Then explain in simple bullet points
-3. Use examples if helpful
-4. Avoid robotic or overly technical language
+IMPORTANT RULES:
+- Follow exactly what the user is asking
+- Adapt your answer style based on the question:
+    • If user asks for short answer → keep it concise
+    • If user asks for explanation → explain clearly
+    • If user asks for bullet points → use bullet points
+    • If user asks for summary → summarize
+    • If user asks for comparison → structure it properly
+- Do NOT force any format unless the user asks
+- Keep language simple and natural
 
 Context:
 {context}
 
-Question:
+User Question:
 {question}
 """
 
-        response = llm.invoke(prompt)
+    response = llm.invoke(prompt)
 
-        st.subheader("Answer")
-        st.write(response.content)
-
-        # Sources
-        st.subheader("Sources")
-        for i, doc in enumerate(docs):
-            st.write(f"Source {i+1}")
-            clean_text = doc.page_content.replace("\n", " ").strip()
-
-            st.markdown(f"**Source {i+1}:**")
-            st.markdown(clean_text[:300] + "...")
-            st.caption(f"Page: {doc.metadata.get('page', 'N/A')}")
-            st.divider()    
+    st.subheader("Answer")
+    st.markdown(response.content)  
