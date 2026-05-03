@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
