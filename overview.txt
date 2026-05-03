@@ -1,0 +1,27 @@
+📄 1. Upload PDF
+
+Streamlit interface uploads file
+
+📖 2. Read PDF
+
+PyPDF loads document pages
+
+✂️ 3. Chunking
+
+Text is split into small meaningful parts
+
+🧠 4. Embeddings
+
+OpenAI converts text into vectors
+
+🗄️ 5. Vector Storage
+
+Chroma stores embeddings for search
+
+🔍 6. Retrieval
+
+Finds most relevant chunks for a question
+
+🤖 7. LLM Answering
+
+Chat model generates final answer from context
